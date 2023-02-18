@@ -2,16 +2,18 @@ import Header from "./mainPagesComponent/Header";
 import SalesHits from "./mainPagesComponent/SalesHits";
 import Catalog from "./mainPagesComponent/Catalog";
 import Footer from "./mainPagesComponent/Footer";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { GET_INPUT_CATALOG_VALUE } from "../store/actions/actionTypes";
+//import { GET_INPUT_CATALOG_VALUE } from "../store/actions/actionTypes";
+import { putInputValue } from "../store/slices/menuSearch";
 
 export default function MainPage() {
+    
   const dispatch = useDispatch();
-
   useEffect(() => {
-    dispatch({ type: GET_INPUT_CATALOG_VALUE, payload: "" });
-  });
+    dispatch(putInputValue(""));
+    // eslint-disable-next-line
+  },[]);
   return (
     <>
       <Header className="header" />

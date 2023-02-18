@@ -1,24 +1,18 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  GET_CATEGORY,
-  GET_ITEMS,
-  GET_ITEMS_OFFSET,
-  HIDE_BUTTON,
-} from "../../store/actions/actionTypes";
+import catalog from "../../store/slices/catalog";
+import { getCategory, getItemsOffset,  } from "../../store/actions/actionToolkit";
+import { getItems } from "../../store/slices/catalog";
 import Product from "./Product";
+import { activeHideButton } from "../../store/slices/catalog";
 
 export default function Catalog(props) {
   const dispatch = useDispatch();
-  const mainState = useSelector((state) => state.mainPageCatalog.categories);
-  const selectedCategory = useSelector(
-    (state) => state.mainPageCatalog.selectedCategory
-  );
-  const items = useSelector((state) => state.mainPageCatalog.items);
-  let searchCatalog = useSelector(
-    (state) => state.mainPageCatalog.searchCatalog
-  );
-  const hideButton = useSelector((state) => state.mainPageCatalog.hideButton);
+  const {categories} = useSelector(state => state.catalog);
+  const {selectedCategory} = useSelector(state => state.catalog);
+  const {items} = useSelector(state => state.catalog);
+  let {searchCatalog} = useSelector(state => state.catalog);
+  const {hideButton} = useSelector(state => state.catalog);
   console.log(hideButton);
 
   //const [isLoad, setIsLoad] = useState('faulse');
@@ -26,31 +20,31 @@ export default function Catalog(props) {
 
   useEffect(() => {
     let url = !searchCatalog ? "items" : `items?&q=${searchCatalog}`;
-    dispatch({ type: GET_CATEGORY, payload: "categories" });
-    dispatch({ type: GET_ITEMS, payload: { url: url } });
+    dispatch(getCategory("categories"));
+    dispatch(getItems({ url: url }));
+    // eslint-disable-next-line
   }, []);
 
   const handleClick = (evt) => {
     setOffset(6);
     const selectedCategory = evt.target.id;
-    //console.log(selectedCategory)
+    let urlSearchCatalog = !searchCatalog? '': searchCatalog;
+    console.log(selectedCategory)
     //dispatch({type: GET_ITEMS, payload: `items?categoryId=${selectedCategory}`})
-    dispatch({ type: HIDE_BUTTON });
+    dispatch(activeHideButton());
     //console.log(items)
-    dispatch({
-      type: GET_ITEMS,
-      payload: {
-        url: `items?categoryId=${selectedCategory}&q=${searchCatalog}`,
+    dispatch(getItems({
+        url: `items?categoryId=${selectedCategory}&q=${urlSearchCatalog}`,
         selectedCategory: selectedCategory,
       },
-    });
-    //console.log(items)
+    ));
+    console.log(items)
   };
 
   const handleClickAll = () => {
     let url = !searchCatalog ? "items" : `items?&q=${searchCatalog}`;
-    dispatch({ type: HIDE_BUTTON });
-    dispatch({ type: GET_ITEMS, payload: { url: url } });
+    dispatch(hideButton);
+    dispatch(getItems({ url: url }));
   };
 
   const handleClickButton = () => {
@@ -64,7 +58,7 @@ export default function Catalog(props) {
           offset + 6
         }`;
     console.log(url);
-    dispatch({ type: GET_ITEMS_OFFSET, payload: { url: url } });
+    dispatch(getItemsOffset({ url: url } ));
   };
 
   console.log(items);
@@ -76,9 +70,9 @@ export default function Catalog(props) {
         <div className="catalog-categories" onClick={handleClickAll}>
           Все
         </div>
-        {!mainState
+        {!categories
           ? null
-          : mainState.map((el) => (
+          : categories.map((el) => (
               <div
                 className="catalog-categories"
                 id={el.id}
@@ -97,6 +91,7 @@ export default function Catalog(props) {
             img={el.images[0]}
             productName={el.title}
             price={el.price}
+            id={el.id}
           ></Product>
         ))}
       </div>

@@ -7,14 +7,15 @@ import {
   GET_INPUT_CATALOG_VALUE,
   GET_ITEMS,
 } from "../store/actions/actionTypes";
+import { putInputValue } from "../store/slices/menuSearch";
+import { getItems } from "../store/slices/catalog";
 
 export default function ProductsCatalog() {
   const dispatch = useDispatch();
-  const selectedCategory = useSelector(
-    (state) => state.mainPageCatalog.selectedCategory
-  );
-  const searchCatalog = useSelector(
-    (state) => state.mainPageCatalog.searchCatalog
+  const {selectedCategory} = useSelector(
+    (state) => state.catalog);
+  const {searchCatalog} = useSelector(
+    (state) => state.menuSearch
   );
   const [value, setValue] = useState(searchCatalog);
 
@@ -24,8 +25,8 @@ export default function ProductsCatalog() {
       : `items?categoryId=${selectedCategory}&q=${evt.target.value}`;
     if (evt.key === "Enter") {
       console.log(url, evt.target.value);
-      dispatch({ type: GET_INPUT_CATALOG_VALUE, payload: `${value}` });
-      dispatch({ type: GET_ITEMS, payload: { url: url } });
+      dispatch(putInputValue(value));
+      dispatch(getItems({ url: url }));
     }
   };
 

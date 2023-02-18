@@ -1,12 +1,17 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate} from "react-router-dom";
 import MyImage from "../../img/header-logo.png";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { GET_INPUT_CATALOG_VALUE } from "../../store/actions/actionTypes";
+import { useDispatch, useSelector } from "react-redux";
+//import { GET_INPUT_CATALOG_VALUE } from "../../store/actions/actionTypes";
+import { putInputValue } from "../../store/slices/menuSearch";
+import {basket} from "../../store/slices/basket";
 
 export default function Menu() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const {quantityProductsInBasket} = useSelector(state => state.basket);
+  
+  console.log(quantityProductsInBasket);
 
   const [buttonSearchActive, setButtonSearchActive] = useState("invisible");
   const [value, setValue] = useState("");
@@ -22,7 +27,7 @@ export default function Menu() {
     console.log(!buttonSearchActive, value);
     if (buttonSearchActive !== "invisible") {
       if (value) {
-        dispatch({ type: GET_INPUT_CATALOG_VALUE, payload: value });
+        dispatch(putInputValue(value));
         navigate("/catalog.html");
       } else {
         setButtonSearchActive("invisible");
@@ -74,7 +79,9 @@ export default function Menu() {
           className="header-controls-pic header-controls-search"
           onClick={handleClickButtonSearch}
         ></div>
-        <div className="header-controls-pic header-controls-cart"></div>
+        <div className="header-controls-pic header-controls-cart">
+          <div className="quantity-products-basket">{quantityProductsInBasket}</div>
+        </div>
       </div>
       <form
         data-id="search-form"
