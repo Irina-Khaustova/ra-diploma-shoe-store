@@ -1,16 +1,27 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteProductInBasket } from "../store/slices/basket";
 
 
 export default function BasketPage() {
     //const dispatch = useDispatch();
     //window.localStorage.clear()
     const {productsInBasket} = useSelector(state => state.basket);
-    const {quantityProductsInBasket} = useSelector(state => state.basket);
-   console.log(productsInBasket, quantityProductsInBasket)
-    // useEffect(() => {
-    //   dispatch({ type: GET_INPUT_CATALOG_VALUE, payload: "" });
-    // });
+    //const {quantityProductsInBasket} = useSelector(state => state.basket);
+   console.log()
+   const dispatch = useDispatch();
+    
+
+    const  handleDelete = (evt) => {
+      console.log(evt.target.id)
+     dispatch(deleteProductInBasket(evt.target.id))
+    }
+
+    const handleCklickCheckboxAgree = () => {
+
+    }
+    
     return (
+      <>
       <div className="basket">
         <h2>Корзина</h2>
         <div className="basket-items-title">
@@ -31,11 +42,22 @@ export default function BasketPage() {
             <div className="basket-item basket-item-price meaning">{el.product.price}</div>
             <div className="basket-item basket-item-total meaning">{el.product.price*el.quantity}</div>
             <div className="basket-item basket-item-actions meaning">
-                <button className="basket-button-delete">Удалить</button></div></div>
+                <button className="basket-button-delete" id={el.product.id + el.size} onClick={handleDelete}>Удалить</button></div></div>
             )) : null}
-        
-        <h2>Оформить заказ</h2>
-        <div className=""></div>
       </div>
+      <h2>Оформить заказ</h2>
+      <div className="making-order">
+        <form className="making-order-form">
+          <label htmlFor="making-order-form-tel">Телефон</label>
+          <input  className="making-order-input" type={"tel"} placeholder={"Ваш телефон"} id="making-order-form-tel"></input>
+          <label htmlFor="making-order-form-adress">Адрес доставки</label>
+          <input  className="making-order-input" type={"tel"} placeholder={"Адрес доставки"} id="making-order-form-adress"></input>
+          <div>
+          <span className="checkbox-agree" onClick={handleCklickCheckboxAgree}></span>
+          <span className="making-order-input" type={"radio"}>Согласен с правилами доставки</span>
+          </div>
+        </form>
+      </div>
+      </>
     );
   }

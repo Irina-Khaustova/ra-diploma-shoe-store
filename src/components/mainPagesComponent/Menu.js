@@ -3,15 +3,15 @@ import MyImage from "../../img/header-logo.png";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 //import { GET_INPUT_CATALOG_VALUE } from "../../store/actions/actionTypes";
-import { putInputValue } from "../../store/slices/menuSearch";
+import { putInputValue } from "../../store/slices/catalog";
 import {basket} from "../../store/slices/basket";
 
 export default function Menu() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const {quantityProductsInBasket} = useSelector(state => state.basket);
+  const {productsInBasket} = useSelector(state => state.basket);
   
-  console.log(quantityProductsInBasket);
+  console.log(productsInBasket);
 
   const [buttonSearchActive, setButtonSearchActive] = useState("invisible");
   const [value, setValue] = useState("");
@@ -58,7 +58,7 @@ export default function Menu() {
           Каталог
         </NavLink>
         <NavLink
-          to="/forza"
+          to="/about.html"
           className={({ isActive }) =>
             isActive ? "menu-item-active" : "menu-item"
           }
@@ -66,7 +66,7 @@ export default function Menu() {
           О магазине
         </NavLink>
         <NavLink
-          to="/timeattack"
+          to="/contacts.html"
           className={({ isActive }) =>
             isActive ? "menu-item-active" : "menu-item"
           }
@@ -80,7 +80,7 @@ export default function Menu() {
           onClick={handleClickButtonSearch}
         ></div>
         <div className="header-controls-pic header-controls-cart">
-          <div className="quantity-products-basket">{quantityProductsInBasket}</div>
+          {productsInBasket? <div className="quantity-products-basket">{productsInBasket?.length}</div>: null}
         </div>
       </div>
       <form

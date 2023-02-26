@@ -3,11 +3,7 @@ import Catalog from "./mainPagesComponent/Catalog";
 import Footer from "./mainPagesComponent/Footer";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
-import {
-  GET_INPUT_CATALOG_VALUE,
-  GET_ITEMS,
-} from "../store/actions/actionTypes";
-import { putInputValue } from "../store/slices/menuSearch";
+import { putInputValue } from "../store/slices/catalog";
 import { getItems } from "../store/slices/catalog";
 
 export default function ProductsCatalog() {
@@ -15,9 +11,10 @@ export default function ProductsCatalog() {
   const {selectedCategory} = useSelector(
     (state) => state.catalog);
   const {searchCatalog} = useSelector(
-    (state) => state.menuSearch
+    (state) => state.catalog
   );
-  const [value, setValue] = useState(searchCatalog);
+  const [value, setValue] = useState(`${searchCatalog}`);
+  console.log(searchCatalog, value)
 
   const handleInput = (evt) => {
     let url = !selectedCategory
@@ -40,6 +37,7 @@ export default function ProductsCatalog() {
       <Catalog className="catalog">
         <input
           className="catalog-search-form"
+          placeholder="Поиск"
           value={value}
           onKeyDown={handleInput}
           onChange={handleChange}

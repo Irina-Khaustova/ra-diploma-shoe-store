@@ -1,20 +1,9 @@
 import { take, put, spawn, call } from "redux-saga/effects";
 import skillsRequest from "../../components/Utils/utils";
-// import {
-//   GET_CATEGORY,
-//   GET_ITEMS,
-//   SERCH_SKILLS_SUCCESS_CATEGORY,
-//   SERCH_SKILLS_SUCCESS_ITEMS,
-//   GET_SALES_HITS_ITEMS,
-//   PUT_SALES_HITS_ITEMS,
-//   PUT_ITEMS_OFFSET,
-//   GET_ITEMS_OFFSET,
-//   GET_PRODUCT,
-//   PUT_PRODUCT,
-// } from "../actions/actionTypes";
 import { getCategory, getSalesHitsItems, getItemsOffset, getProduct } from "../actions/actionToolkit";
 import {putCategory, putItemsOffset, putProduct, getItems, putItems} from "../slices/catalog";
 import {putSalesHitsItems} from "../slices/salesHits";
+import { showError } from "../slices/error";
 
 // запрос категории
 
@@ -23,7 +12,6 @@ function* searhSkillsSagaCategory() {
   console.log(1);
   while (true) {
     const action = yield take(getCategory);
-    console.log(action);
     yield call(handleSearchSkillsSagaCategory, action);
   }
 }
@@ -31,10 +19,13 @@ function* searhSkillsSagaCategory() {
 //worker
 
 function* handleSearchSkillsSagaCategory(action) {
-  console.log(3, action.payload);
-  const data = yield call(skillsRequest, action.payload);
-  console.log(4, data);
+
+  try {
+  const data = yield call(skillsRequest, action.payload)
   yield put(putCategory(data));
+  } catch (e) {
+    yield put(showError(e.message));
+  }
 }
 
 // запрос элементов каталога категории "все"
@@ -56,7 +47,10 @@ function* handleSearchSkillsSagaItems(action) {
   const data = yield call(skillsRequest, action.payload.url);
   console.log(4, data);
   //yield put({ type: putItems, payload: data });
-  yield put(putItems(data));
+  try {yield put(putItems(data));}
+  catch (error) {
+    yield put();
+  }
 }
 
 // запрос элементов SalesHits

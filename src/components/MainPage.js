@@ -5,7 +5,7 @@ import Footer from "./mainPagesComponent/Footer";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 //import { GET_INPUT_CATALOG_VALUE } from "../store/actions/actionTypes";
-import { putInputValue } from "../store/slices/menuSearch";
+import { putInputValue } from "../store/slices/catalog";
 
 export default function MainPage() {
     

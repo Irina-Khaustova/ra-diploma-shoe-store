@@ -4,7 +4,7 @@ import catalog from "../../store/slices/catalog";
 import { getCategory, getItemsOffset,  } from "../../store/actions/actionToolkit";
 import { getItems } from "../../store/slices/catalog";
 import Product from "./Product";
-import { activeHideButton } from "../../store/slices/catalog";
+import { activeHideButton, highlightActiveCategory } from "../../store/slices/catalog";
 
 export default function Catalog(props) {
   const dispatch = useDispatch();
@@ -13,37 +13,38 @@ export default function Catalog(props) {
   const {items} = useSelector(state => state.catalog);
   let {searchCatalog} = useSelector(state => state.catalog);
   const {hideButton} = useSelector(state => state.catalog);
-  console.log(hideButton);
+  const {isLoading} = useSelector(state=> state.catalog);
 
-  //const [isLoad, setIsLoad] = useState('faulse');
   const [offset, setOffset] = useState(6);
-
+  const [activeAll, setActiveAll] = useState("catalog-categories-active");
+ 
   useEffect(() => {
     let url = !searchCatalog ? "items" : `items?&q=${searchCatalog}`;
     dispatch(getCategory("categories"));
     dispatch(getItems({ url: url }));
-    // eslint-disable-next-line
+
   }, []);
 
   const handleClick = (evt) => {
+    
+    setActiveAll("catalog-categories");
     setOffset(6);
     const selectedCategory = evt.target.id;
     let urlSearchCatalog = !searchCatalog? '': searchCatalog;
-    console.log(selectedCategory)
-    //dispatch({type: GET_ITEMS, payload: `items?categoryId=${selectedCategory}`})
     dispatch(activeHideButton());
-    //console.log(items)
+    dispatch(highlightActiveCategory(selectedCategory))
     dispatch(getItems({
         url: `items?categoryId=${selectedCategory}&q=${urlSearchCatalog}`,
         selectedCategory: selectedCategory,
       },
     ));
-    console.log(items)
   };
 
-  const handleClickAll = () => {
+  const handleClickAll = (evt) => {
     let url = !searchCatalog ? "items" : `items?&q=${searchCatalog}`;
-    dispatch(hideButton);
+    setActiveAll("catalog-categories-active");
+    dispatch(highlightActiveCategory(''))
+    dispatch(activeHideButton());
     dispatch(getItems({ url: url }));
   };
 
@@ -51,7 +52,7 @@ export default function Catalog(props) {
     let newOffset = offset + 6;
     console.log(newOffset);
     setOffset(newOffset);
-    console.log(offset);
+    console.log(selectedCategory, searchCatalog);
     const url = !selectedCategory
       ? `items?&offset=${offset}`
       : `items?&categoryId=${selectedCategory}&q=${searchCatalog}&offset=${
@@ -67,16 +68,16 @@ export default function Catalog(props) {
       <h2 className="text-center">Каталог</h2>
       {props.children}
       <div className="catalog-menu">
-        <div className="catalog-categories" onClick={handleClickAll}>
+        <div className={activeAll} onClick={handleClickAll}>
           Все
         </div>
         {!categories
           ? null
           : categories.map((el) => (
               <div
-                className="catalog-categories"
-                id={el.id}
-                key={el.id}
+                className={el.className}
+                id={el.categories}
+                key={el.categories}
                 onClick={handleClick}
               >
                 {el.title}
@@ -84,6 +85,12 @@ export default function Catalog(props) {
             ))}
       </div>
       <div className="catalog-container">
+      {!isLoading? <div className="preloader">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>: null}
         {items.map((el) => (
           <Product
             className="catalog-item"

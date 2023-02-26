@@ -2,11 +2,8 @@ import Footer from "../components/mainPagesComponent/Footer";
 import Header from "../components/mainPagesComponent/Header";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-//import { GET_PRODUCT } from "../store/actions/actionTypes";
 import { useEffect, useState } from "react";
-import { PUT_PRODUCT_IN_BUSKET } from "../store/actions/actionTypes";
-//import { getProductInBsket } from "../store/actions/actionToolkit";
-import { putProductInBasket } from "../store/slices/basket";
+import { putProductInBasket, changeProductInBaslet } from "../store/slices/basket";
 import { getProduct } from "../store/actions/actionToolkit";
 
 export default function ProductPage() {
@@ -18,6 +15,7 @@ export default function ProductPage() {
     console.log(id)
     const url = `items/${id}.html`
     console.log(url) 
+    const {productsInBasket} = useSelector(state => state.basket)
     let [chooseSize, setChooseSize] = useState(false);
     let [count, setCount] = useState(0);
 
@@ -27,6 +25,7 @@ export default function ProductPage() {
      },[])
 
     let sizes = product.sizes;
+    console.log(sizes)
 
      const handleClickMinus = () => {
         if(count > 0) {
@@ -47,9 +46,17 @@ export default function ProductPage() {
      }
 
      const handleClickPutInBusket = () => {
-        console.log(chooseSize)
+        console.log(product)
        if(chooseSize) {
+        //console.log(productsInBasket[5].product === product, productsInBasket[5].size === chooseSize)
+        let filterProduct = productsInBasket?.filter(el => el.product.id === product.id & el.size === chooseSize);
+        let index = productsInBasket?.indexOf(filterProduct[0]);
+        console.log(33, filterProduct, index)
+        if(index >= 0) {
+         dispatch(changeProductInBaslet({index:index, quantity: count}))
+        } else {
         dispatch(putProductInBasket({product: product, quantity: count, size: chooseSize}))
+        }
          navigate('/cart.html');
        }
     }
@@ -67,11 +74,11 @@ export default function ProductPage() {
         }
     }
 
-    console.log(product.images)
+    console.log(sizes)
   return (
     <div className="product-page">
       <Header />
-        <h2>{product.title}</h2>
+        <h2 className="text-cennter">{product.title}</h2>
         <div className="product-page-container">
         <img className="img-catalog-product" src={product.images} alt={product.id}></img>
         <div className="product-specifications-container">
@@ -91,12 +98,12 @@ export default function ProductPage() {
             </div>
             <div className="products-size-container">
                 <div className="product-size-title">Размеры в наличии: </div>
-            {sizes?.map((el, i) => (el.avalible === true? <div className="product-size" key={i} id={el.size} onClick={handleClickChooseSize}>{el.size}</div>: null))}
+            {sizes?.map((el, i) => (el.available === true? <div className="product-size" key={i} id={el.size} onClick={handleClickChooseSize}>{el.size}</div>: null))}
                 </div>
             <div className="product-quantity">Количество
-            <button className="buttonMinus" onClick={handleClickMinus}>-</button>
-            <div>{count}</div>
-            <button className="buttonPlus" onClick={handleClickPlus}>+</button>
+            <button className="button-change-count" onClick={handleClickMinus}>-</button>
+            <div className="product-count">{count}</div>
+            <button className="button-change-count" onClick={handleClickPlus}>+</button>
             </div>
             <button className="product-order-button" onClick={handleClickPutInBusket}>В корзину</button>
       </div>

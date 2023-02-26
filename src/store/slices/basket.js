@@ -1,30 +1,67 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, current } from "@reduxjs/toolkit";
 
 const initialState = {
   quantityProductsInBasket: null,
-  productsInBasket:  JSON.parse(window.localStorage.getItem('productsInBasket')),
-}
+  productsInBasket: JSON.parse(window.localStorage.getItem("productsInBasket")),
+  // productsInBasket:  [],
+};
 
 export const basketSlice = createSlice({
-  name: 'basket',
+  name: "basket",
   initialState,
-  reducers: { 
+  reducers: {
     putProductInBasket: (state, action) => {
-        const products = state.productsInBasket;
-      state.productsInBasket = products === null? []: products;
-      if(products.length > 0) {
-        for (let i = 0; i < products.length - 1; i++) {
-            if(products[i].product.id === action.payload.product.id & products[i].size === action.payload.size) {
-              state.productsInBasket[i].quantity +=1;
-            } 
-        
+      if (state.productsInBasket === null) {
+        state.productsInBasket = [];
       }
-    } else {state.productsInBasket.push(action.payload)};
-    state.quantityProductsInBasket = state.productsInBasket.lengh > 0 ? state.productsInBasket.lengh : null;
-  }
-}
-})
+      // так не работает
+      // if(state.productsInBasket.length > 0) {
+      //     for (let i = 0; i < state.productsInBasket.length - 1; i++) {
+      //       console.log(66)
+      //         if(state.productsInBasket[i].product.id === action.payload.product.id & state.productsInBasket[i].size === action.payload.size) {
+      //           console.log(current(state.productsInBasket[i]))
+      //          current(state.productsInBasket[i]).quantity +=1;
+      //         }
+      //       }
 
-export const {putProductInBasket} = basketSlice.actions;
+      // } else {
+      //   state.productsInBasket.push(action.payload)};
+      state.productsInBasket.push(action.payload);
+      window.localStorage.setItem(
+        "productsInBasket",
+        JSON.stringify(state.productsInBasket)
+      );
+    },
+
+    deleteProductInBasket: (state, action) => {
+      console.log(
+        state.productsInBasket[0].product.id +
+          state.productsInBasket[0].size ===
+          action.payload
+      );
+      state.productsInBasket = state.productsInBasket.filter(
+        (el) => el.product.id + el.size !== action.payload
+      );
+      window.localStorage.setItem(
+        "productsInBasket",
+        JSON.stringify(state.productsInBasket)
+      );
+    },
+    changeProductInBaslet: (state, action) => {
+      state.productsInBasket[action.payload.index].quantity +=
+        action.payload.quantity;
+      window.localStorage.setItem(
+        "productsInBasket",
+        JSON.stringify(state.productsInBasket)
+      );
+    },
+  },
+});
+
+export const {
+  putProductInBasket,
+  deleteProductInBasket,
+  changeProductInBaslet,
+} = basketSlice.actions;
 export const basket = (state) => state.basketSlice;
 export default basketSlice.reducer;
