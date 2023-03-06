@@ -1,19 +1,14 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import catalog from "../../store/slices/catalog";
-import { getCategory, getItemsOffset,  } from "../../store/actions/actionToolkit";
-import { getItems } from "../../store/slices/catalog";
+import catalog from "../store/slices/catalog";
+import { getCategory } from "../store/actions/actionToolkit";
+import { getItems } from "../store/slices/catalog";
 import Product from "./Product";
-import { activeHideButton, highlightActiveCategory } from "../../store/slices/catalog";
+import { activeHideButton, highlightActiveCategory, changeIsLoadingOffset, getItemsOffset } from "../store/slices/catalog";
 
 export default function Catalog(props) {
   const dispatch = useDispatch();
-  const {categories} = useSelector(state => state.catalog);
-  const {selectedCategory} = useSelector(state => state.catalog);
-  const {items} = useSelector(state => state.catalog);
-  let {searchCatalog} = useSelector(state => state.catalog);
-  const {hideButton} = useSelector(state => state.catalog);
-  const {isLoading} = useSelector(state=> state.catalog);
+  const {categories, selectedCategory, searchCatalog, hideButton, isLoading, items, errorCatalog, isLoadingOffset} = useSelector(state => state.catalog);
 
   const [offset, setOffset] = useState(6);
   const [activeAll, setActiveAll] = useState("catalog-categories-active");
@@ -49,6 +44,8 @@ export default function Catalog(props) {
   };
 
   const handleClickButton = () => {
+
+    //dispatch(changeIsLoadingOffset());
     let newOffset = offset + 6;
     console.log(newOffset);
     setOffset(newOffset);
@@ -68,10 +65,10 @@ export default function Catalog(props) {
       <h2 className="text-center">Каталог</h2>
       {props.children}
       <div className="catalog-menu">
-        <div className={activeAll} onClick={handleClickAll}>
+        {!categories || !isLoading ? null: <div className={activeAll} onClick={handleClickAll}>
           Все
-        </div>
-        {!categories
+        </div>}
+        {!categories || !isLoading
           ? null
           : categories.map((el) => (
               <div
@@ -91,6 +88,7 @@ export default function Catalog(props) {
           <span></span>
           <span></span>
         </div>: null}
+        {errorCatalog? <div className="error">{errorCatalog}</div> : null}
         {items.map((el) => (
           <Product
             className="catalog-item"
@@ -102,11 +100,17 @@ export default function Catalog(props) {
           ></Product>
         ))}
       </div>
-      {hideButton === false ? (
+      {hideButton === false?  (
         <button className="catalog-button" onClick={handleClickButton}>
           Загрузить ещё
         </button>
       ) : null}
+      {!isLoadingOffset? <div className="preloader">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>: null}
     </section>
   );
 }

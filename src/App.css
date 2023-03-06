@@ -409,19 +409,25 @@ section {
   font-size: 1.2em;
 }
 
-.basket {
+/* .basket-container {
   width: 1200px;
+} */
+
+.basket {
+  
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: 40px;
+  justify-content: flex-start;
+  margin: 0;
 }
 
 .basket-items-title {
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .basket-item {
@@ -467,6 +473,27 @@ section {
   width: 150px;
 }
 
+.basket-total-container {
+  padding-left: 0;
+}
+
+.basket-total {
+  display: inline-block;
+  border: 1px solid gray;
+  padding-left: 15px;
+  height: 40px;
+  line-height: 40px;
+}
+
+.basket-total-text {
+  width: 696px;
+  height: 40px;
+}
+
+.basket-total-cost {
+  width: 152px;
+}
+
 .making-order {
   padding: 30px;
   border: 1px solid rgb(212, 212, 212);
@@ -478,12 +505,12 @@ section {
 .making-order-form {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
 }
 
  label, .making-order-input{
   display: block;
-  width: 100%;
+  width: 95%;
 }
 
 label {
@@ -498,6 +525,37 @@ label {
   padding: 5px 10px 5px 10px;
   font-size: inherit;
   margin-bottom: 20px;
+}
+
+.checkbox-agree-container {
+  position: relative;
+}
+
+.checkbox-agree-marker {
+  width: 1.2em;
+  height: 1.2em;
+  background-color: rgb(212, 212, 212);
+  display: inline-block;
+  position: absolute;
+  border: 1px solid rgb(212, 212, 212);
+  border-radius: 2px;
+}
+
+.checkbox-agree-text {
+  margin-left: 30px;
+}
+
+.making-order-button {
+  margin-top: 20px;
+  height: 2.5em;
+  width: 150px;
+  padding: 5px 10px 5px 10px;
+  font-size: inherit;
+  border: 1px solid rgb(212, 212, 212);
+  border-radius: 3px;
+  color:rgb(106, 105, 105);
+  background-color: white;
+  
 }
 
 .product-quantity {

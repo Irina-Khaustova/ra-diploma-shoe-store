@@ -3,6 +3,8 @@ import { createSlice, current } from "@reduxjs/toolkit";
 const initialState = {
   quantityProductsInBasket: null,
   productsInBasket: JSON.parse(window.localStorage.getItem("productsInBasket")),
+  submittingFormStatus: false,
+  errorSubmiting: "",
   // productsInBasket:  [],
 };
 
@@ -55,13 +57,32 @@ export const basketSlice = createSlice({
         JSON.stringify(state.productsInBasket)
       );
     },
-  },
+    
+      submitForm: (state, action) => {
+        state.submittingFormStatus = true;
+        state.productsInBasket = [];
+        window.localStorage.setItem(
+          "productsInBasket",
+          JSON.stringify([])
+        );
+      },
+
+      changSubmittingFormStatus: (state, action) => {
+        state.submittingFormStatus = false;
+      },
+
+      showErrorSubmitting: (state, action) => {
+        state.errorSubmiting = action.payload;
+      }
+    }
 });
 
 export const {
   putProductInBasket,
   deleteProductInBasket,
   changeProductInBaslet,
+  submitForm,
+  changSubmittingFormStatus,
 } = basketSlice.actions;
 export const basket = (state) => state.basketSlice;
 export default basketSlice.reducer;

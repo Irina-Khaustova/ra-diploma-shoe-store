@@ -1,6 +1,6 @@
-import Header from "./mainPagesComponent/Header";
-import Catalog from "./mainPagesComponent/Catalog";
-import Footer from "./mainPagesComponent/Footer";
+import Header from "../components/Header";
+import Catalog from "../components/Catalog";
+import Footer from "../components/Footer";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { putInputValue } from "../store/slices/catalog";

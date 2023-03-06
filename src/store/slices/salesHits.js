@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     salesHitsItems: [],
     isLoading: false,
+    errorSalesHits: "",
 }
 
 export const salesHitsSlice = createSlice({
@@ -12,7 +13,11 @@ export const salesHitsSlice = createSlice({
     putSalesHitsItems: (state, action) => {
       state.salesHitsItems = action.payload;
       state.isLoading = true;
-    }
+    },
+
+    showErrorSalesHits: (state, action) => {
+      state.errorSalesHits =  action.payload;
+    },
 }
 })
 

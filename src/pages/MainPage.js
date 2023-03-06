@@ -1,7 +1,7 @@
-import Header from "./mainPagesComponent/Header";
-import SalesHits from "./mainPagesComponent/SalesHits";
-import Catalog from "./mainPagesComponent/Catalog";
-import Footer from "./mainPagesComponent/Footer";
+import Header from "../components/Header";
+import SalesHits from "../components/SalesHits";
+import Catalog from "../components/Catalog";
+import Footer from "../components/Footer";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 //import { GET_INPUT_CATALOG_VALUE } from "../store/actions/actionTypes";

@@ -1,10 +1,10 @@
 import { NavLink, useNavigate} from "react-router-dom";
-import MyImage from "../../img/header-logo.png";
+import MyImage from "../img/header-logo.png";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 //import { GET_INPUT_CATALOG_VALUE } from "../../store/actions/actionTypes";
-import { putInputValue } from "../../store/slices/catalog";
-import {basket} from "../../store/slices/basket";
+import { putInputValue } from "../store/slices/catalog";
+import {basket} from "../store/slices/basket";
 
 export default function Menu() {
   const navigate = useNavigate();
@@ -34,6 +34,10 @@ export default function Menu() {
       }
     }
   };
+
+  const handleClickOpenBasket = () => {
+    navigate("/cart.html");
+  }
 
   return (
     <div className="navbar navbar-expand-sm navbar-light bg-light">
@@ -79,7 +83,7 @@ export default function Menu() {
           className="header-controls-pic header-controls-search"
           onClick={handleClickButtonSearch}
         ></div>
-        <div className="header-controls-pic header-controls-cart">
+        <div className="header-controls-pic header-controls-cart" onClick={handleClickOpenBasket}>
           {productsInBasket? <div className="quantity-products-basket">{productsInBasket?.length}</div>: null}
         </div>
       </div>

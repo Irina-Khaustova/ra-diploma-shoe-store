@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Product from "./Product";
-import { getSalesHitsItems } from "../../store/actions/actionToolkit";
+import { getSalesHitsItems } from "../store/actions/actionToolkit";
 
 export default function SalesHits() {
   const {salesHitsItems} = useSelector((state) => state.salesHits);

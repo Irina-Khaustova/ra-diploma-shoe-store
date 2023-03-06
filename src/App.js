@@ -1,11 +1,11 @@
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
-import MainPage from "./components/MainPage";
-import ProductsCatalog from "./components/ProductsCatalog";
-import ProductPage from "./components/ProductPage";
-import BasketPage from "./components/BasketPage";
-import InformasionPage from "./components/InformationPage";
-import ContactsPage from "./components/ContactsPage";
+import MainPage from "./pages/MainPage";
+import ProductsCatalog from "./pages/ProductsCatalog";
+import ProductPage from "./pages/ProductPage";
+import BasketPage from "./pages/BasketPage";
+import InformasionPage from "./pages/InformationPage";
+import ContactsPage from "./pages/ContactsPage";
 //import NoFoundPage from "../src/components/NoFoundPage";
 
 function App() {

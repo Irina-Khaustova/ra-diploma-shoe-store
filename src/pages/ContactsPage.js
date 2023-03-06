@@ -1,4 +1,4 @@
-import Footer from "./mainPagesComponent/Footer";
+import Footer from "../components/Footer";
 
 export default function ContactsPage() {
     

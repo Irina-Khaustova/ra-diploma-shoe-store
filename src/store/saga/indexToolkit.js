@@ -1,9 +1,11 @@
 import { take, put, spawn, call } from "redux-saga/effects";
-import skillsRequest from "../../components/Utils/utils";
-import { getCategory, getSalesHitsItems, getItemsOffset, getProduct } from "../actions/actionToolkit";
-import {putCategory, putItemsOffset, putProduct, getItems, putItems} from "../slices/catalog";
+import skillsRequest from "../../utils/utils";
+import { makingOrder } from "../../utils/utils";
+import { getCategory, getSalesHitsItems,  getProduct, submittingForm } from "../actions/actionToolkit";
+import {putCategory, putItemsOffset, putProduct, getItems, putItems, getItemsOffset} from "../slices/catalog";
 import {putSalesHitsItems} from "../slices/salesHits";
 import { showError } from "../slices/error";
+import { submitForm } from "../slices/basket";
 
 // запрос категории
 
@@ -115,10 +117,40 @@ function* handleSearchSkillsSagaProduct(action) {
   console.log(4, data);
   yield put(putProduct(data));
 }
+
+//отправка формы - заказ товара
+
+//watcher
+function* submittingFormSaga() {
+  console.log(1);
+  while (true) {
+    console.log(44)
+    const action = yield take(submittingForm);
+    console.log(10);
+    yield call(handleSubmittingFormSaga, action);
+  }
+}
+
+//worker
+
+function* handleSubmittingFormSaga(action) {
+  console.log(3, action.payload)
+  try {
+  const data = yield call(makingOrder, action.payload.url, action.payload.data);
+  console.log(4, data);
+  yield put(submitForm(data));
+
+  } catch(e) {
+    console.log('error', e.message)
+    yield put(showError(e.message));
+  }
+}
+
 export default function* saga() {
   yield spawn(searhSkillsSagaCategory);
   yield spawn(searhSkillsSagaItems);
   yield spawn(searhSkillsSagaSalesHitsItems);
   yield spawn(searhSkillsSagaOffsetItems);
   yield spawn(searhSkillsSagaProduct);
+  yield spawn(submittingFormSaga);
 }

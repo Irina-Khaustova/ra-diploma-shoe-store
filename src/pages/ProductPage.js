@@ -1,5 +1,5 @@
-import Footer from "../components/mainPagesComponent/Footer";
-import Header from "../components/mainPagesComponent/Header";
+import Footer from "../components/Footer";
+import Header from "../components/Header";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
@@ -9,7 +9,7 @@ import { getProduct } from "../store/actions/actionToolkit";
 export default function ProductPage() {
     
     const navigate = useNavigate();
-    const {product} = useSelector(state => state.catalog)
+    const {product, isLoadingProduct, errorProduct} = useSelector(state => state.catalog)
     const dispatch = useDispatch();
     const {id} = useParams();
     console.log(id)
@@ -20,7 +20,8 @@ export default function ProductPage() {
     let [count, setCount] = useState(0);
 
     useEffect(()=> {
-    dispatch(getProduct(`items/${id}`));
+      
+      dispatch(getProduct(`items/${id}`));
     // eslint-disable-next-line
      },[])
 
@@ -74,14 +75,21 @@ export default function ProductPage() {
         }
     }
 
-    console.log(sizes)
+    console.log(product.images)
   return (
     <div className="product-page">
       <Header />
+      {!isLoadingProduct? <div className="preloader">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>: null}
+        {errorProduct? <div className="error">{errorProduct}</div> : null}
         <h2 className="text-cennter">{product.title}</h2>
         <div className="product-page-container">
-        <img className="img-catalog-product" src={product.images} alt={product.id}></img>
-        <div className="product-specifications-container">
+        <img className="img-catalog-product" src={product.images? product.images[0] : null} alt={product.id}></img>
+        {isLoadingProduct? <div className="product-specifications-container">
             <div className="product-features">
                 <div className="product-feature">Артикул</div>
                 <div className="product-feature">{product.sku}</div>
@@ -106,7 +114,7 @@ export default function ProductPage() {
             <button className="button-change-count" onClick={handleClickPlus}>+</button>
             </div>
             <button className="product-order-button" onClick={handleClickPutInBusket}>В корзину</button>
-      </div>
+      </div>: null}
       </div>
       <Footer />
     </div>

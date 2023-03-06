@@ -1,4 +1,4 @@
-import Header from "./mainPagesComponent/Header";
+import Header from "../components/Header";
 
 export default function InformasionPage() {
     

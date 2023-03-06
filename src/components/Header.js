@@ -1,5 +1,5 @@
 import Menu from "./Menu";
-import MyImage from "../../img/banner.jpg";
+import MyImage from "../img/banner.jpg";
 
 export default function Header() {
    
