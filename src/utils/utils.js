@@ -1,10 +1,9 @@
-//import REACT_APP_URL from "../Utils/.env"
-
 export default async function skillsRequest(urlParams) {
-  //const params = new URLSearchParams({q: urlParams})
+  
   console.log(`http://localhost:7777/api/${urlParams}`);
   const response = await fetch(`http://localhost:7777/api/${urlParams}`);
   if (!response.ok) {
+    console.log(75)
     throw new Error(response.statusText);
   }
 
@@ -13,7 +12,7 @@ export default async function skillsRequest(urlParams) {
 
 
 export async function makingOrder(urlParams, data) {
-  console.log(33, typeof data.items[0].price)
+  
   const response = await fetch(`http://localhost:7777/api/${urlParams}`,
   {
     method: 'POST',

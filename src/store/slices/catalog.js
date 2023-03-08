@@ -19,7 +19,6 @@ export const catalogSlice = createSlice({
   initialState,
   reducers: {
     getItems: (state, action) => {
-      console.log(action.payload);
       state.selectedCategory = action.payload.selectedCategory;
     },
     putItems: (state, action) => {
@@ -31,7 +30,6 @@ export const catalogSlice = createSlice({
       state.hideButton = false;
     },
     putCategory: (state, action) => {
-      console.log(action.payload);
       const data = action.payload;
       let arr = [];
       data?.forEach((el) => {
@@ -42,7 +40,6 @@ export const catalogSlice = createSlice({
         });
       });
       state.categories = arr;
-      console.log(state.categories);
     },
 
     changeIsLoadingOffset: (state, action) => {
@@ -55,7 +52,6 @@ export const catalogSlice = createSlice({
     },
 
     putItemsOffset: (state, action) => {
-      console.log(action.payload);
       const data = action.payload;
       if (!data || data.length < 6) {
         state.hideButton = true;
@@ -78,9 +74,7 @@ export const catalogSlice = createSlice({
     },
 
     highlightActiveCategory: (state, action) => {
-      console.log(77, action.payload);
       state.categories.forEach((el) => {
-        console.log(typeof el.categories, typeof +action.payload);
         if (el.categories === +action.payload) {
           el.className = "catalog-categories-active";
         } else {
@@ -109,7 +103,7 @@ export const {
   putInputValue,
   highlightActiveCategory,
   showErrorCatalog,
-  isLoadingProduct, 
+  isLoadingProduct,
   showErrorProduct,
   changeIsLoadingOffset,
   getItemsOffset,

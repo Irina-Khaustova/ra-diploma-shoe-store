@@ -1,11 +1,10 @@
-import { createSlice, current } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   quantityProductsInBasket: null,
   productsInBasket: JSON.parse(window.localStorage.getItem("productsInBasket")),
   submittingFormStatus: false,
   errorSubmiting: "",
-  // productsInBasket:  [],
 };
 
 export const basketSlice = createSlice({
@@ -36,11 +35,6 @@ export const basketSlice = createSlice({
     },
 
     deleteProductInBasket: (state, action) => {
-      console.log(
-        state.productsInBasket[0].product.id +
-          state.productsInBasket[0].size ===
-          action.payload
-      );
       state.productsInBasket = state.productsInBasket.filter(
         (el) => el.product.id + el.size !== action.payload
       );
@@ -57,24 +51,21 @@ export const basketSlice = createSlice({
         JSON.stringify(state.productsInBasket)
       );
     },
-    
-      submitForm: (state, action) => {
-        state.submittingFormStatus = true;
-        state.productsInBasket = [];
-        window.localStorage.setItem(
-          "productsInBasket",
-          JSON.stringify([])
-        );
-      },
 
-      changSubmittingFormStatus: (state, action) => {
-        state.submittingFormStatus = false;
-      },
+    submitForm: (state, action) => {
+      state.submittingFormStatus = true;
+      state.productsInBasket = [];
+      window.localStorage.setItem("productsInBasket", JSON.stringify([]));
+    },
 
-      showErrorSubmitting: (state, action) => {
-        state.errorSubmiting = action.payload;
-      }
-    }
+    changSubmittingFormStatus: (state, action) => {
+      state.submittingFormStatus = false;
+    },
+
+    showErrorSubmitting: (state, action) => {
+      state.errorSubmiting = action.payload;
+    },
+  },
 });
 
 export const {
@@ -83,6 +74,7 @@ export const {
   changeProductInBaslet,
   submitForm,
   changSubmittingFormStatus,
+  showErrorSubmitting,
 } = basketSlice.actions;
 export const basket = (state) => state.basketSlice;
 export default basketSlice.reducer;

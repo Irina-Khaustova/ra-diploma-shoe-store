@@ -6,26 +6,32 @@ export default function Footer() {
       <section className="footer-section">
         <h4>Информация</h4>
         <div className="footer-link-container">
-        <Link className="footer-link" to="/about.html">О магазине</Link>
-        <Link className="footer-link" to="/catalog.html">Каталог</Link>
-        <Link className="footer-link" to="/contacts.html">Контакты</Link>
+          <Link className="footer-link" to="/about.html">
+            О магазине
+          </Link>
+          <Link className="footer-link" to="/catalog.html">
+            Каталог
+          </Link>
+          <Link className="footer-link" to="/contacts.html">
+            Контакты
+          </Link>
         </div>
       </section>
       <section className="footer-section">
         <h4>Принимаем к оплате</h4>
         <div>
-        <div className="footer-pay">
-          <div className="footer-pay-systems footer-pay-systems-paypal"></div>
-          <div className="footer-pay-systems footer-pay-systems-master-card"></div>
-          <div className="footer-pay-systems footer-pay-systems-visa"></div>
-          <div className="footer-pay-systems footer-pay-systems-yandex"></div>
-          <div className="footer-pay-systems footer-pay-systems-webmoney"></div>
-          <div className="footer-pay-systems footer-pay-systems-qiwi"></div>
-        </div>
-        <div className="footer-copyright">
-        2009-2019 © BosaNoga.ru — модный интернет-магазин обуви и аксессуаров.
-              Все права защищены.{"\n"} Доставка по всей России!
-        </div>
+          <div className="footer-pay">
+            <div className="footer-pay-systems footer-pay-systems-paypal"></div>
+            <div className="footer-pay-systems footer-pay-systems-master-card"></div>
+            <div className="footer-pay-systems footer-pay-systems-visa"></div>
+            <div className="footer-pay-systems footer-pay-systems-yandex"></div>
+            <div className="footer-pay-systems footer-pay-systems-webmoney"></div>
+            <div className="footer-pay-systems footer-pay-systems-qiwi"></div>
+          </div>
+          <div className="footer-copyright">
+            2009-2019 © BosaNoga.ru — модный интернет-магазин обуви и
+            аксессуаров. Все права защищены.{"\n"} Доставка по всей России!
+          </div>
         </div>
       </section>
       <section className=" footer-section footer-contacts">

@@ -8,20 +8,17 @@ import { getItems } from "../store/slices/catalog";
 
 export default function ProductsCatalog() {
   const dispatch = useDispatch();
-  const {selectedCategory} = useSelector(
-    (state) => state.catalog);
-  const {searchCatalog} = useSelector(
+  const { selectedCategory, searchCatalog } = useSelector(
     (state) => state.catalog
   );
+
   const [value, setValue] = useState(`${searchCatalog}`);
-  console.log(searchCatalog, value)
 
   const handleInput = (evt) => {
     let url = !selectedCategory
       ? `items?&q=${evt.target.value}`
       : `items?categoryId=${selectedCategory}&q=${evt.target.value}`;
     if (evt.key === "Enter") {
-      console.log(url, evt.target.value);
       dispatch(putInputValue(value));
       dispatch(getItems({ url: url }));
     }

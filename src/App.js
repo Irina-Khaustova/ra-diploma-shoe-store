@@ -6,7 +6,7 @@ import ProductPage from "./pages/ProductPage";
 import BasketPage from "./pages/BasketPage";
 import InformasionPage from "./pages/InformationPage";
 import ContactsPage from "./pages/ContactsPage";
-//import NoFoundPage from "../src/components/NoFoundPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
 function App() {
   return (
@@ -18,6 +18,7 @@ function App() {
         <Route path="/cart.html" element={<BasketPage />} />
         <Route path="/about.html" element={<InformasionPage/>}/>
         <Route path="/contacts.html" element={<ContactsPage/>}/>
+        <Route path="*" element={<NotFoundPage/>}/>
       </Routes>
     </div>
   );
