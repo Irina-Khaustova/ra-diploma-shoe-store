@@ -45,7 +45,8 @@ export default function ProductPage() {
     }
   };
 
-  const handleClickPutInBusket = () => {
+  const handleClickPutInBusket = () => {  
+    if (!chooseSize || count === 0) return;
     if (chooseSize) {
       let filterProduct = productsInBasket?.filter(
         (el) => (el.product.id === product.id) & (el.size === chooseSize)
@@ -113,7 +114,7 @@ export default function ProductPage() {
               <div className="product-feature">{product.reason}</div>
             </div>
             <div className="products-size-container">
-              <div className="product-size-title">Размеры в наличии: </div>
+              {sizes && <div className="product-size-title">Размеры в наличии: </div>}
               {sizes?.map((el, i) =>
                 el.available === true ? (
                   <div

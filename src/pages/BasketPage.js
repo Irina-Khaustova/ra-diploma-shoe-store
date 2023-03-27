@@ -4,7 +4,7 @@ import {
   changSubmittingFormStatus,
 } from "../store/slices/basket";
 import { useState, useEffect } from "react";
-import { getProduct, submittingForm } from "../store/actions/actionToolkit";
+import { submittingForm } from "../store/actions/actionToolkit";
 import Header from "../components/Header";
 
 export default function BasketPage() {
@@ -29,6 +29,7 @@ export default function BasketPage() {
 
   useEffect(() => {
     if (submittingFormStatus) dispatch(changSubmittingFormStatus);
+        // eslint-disable-next-line
   }, []);
   const handleDelete = (evt) => {
     dispatch(deleteProductInBasket(evt.target.id));

@@ -16,6 +16,7 @@ import {
   getItemsOffset,
   showErrorCatalog,
   showErrorProduct,
+  showErrorOffset,
 } from "../slices/catalog";
 import { putSalesHitsItems, showErrorSalesHits } from "../slices/salesHits";
 import { submitForm, showErrorSubmitting } from "../slices/basket";
@@ -46,10 +47,8 @@ function* handleSearchSkillsSagaCategory(action) {
 
 //watcher
 function* searhSkillsSagaItems() {
-  console.log(1);
   while (true) {
     const action = yield take(getItems);
-    console.log(action);
     yield call(handleSearchSkillsSagaItems, action);
   }
 }
@@ -57,13 +56,10 @@ function* searhSkillsSagaItems() {
 //worker
 
 function* handleSearchSkillsSagaItems(action) {
-  console.log(3, action.payload.url);
   try {
     const data = yield call(skillsRequest, action.payload.url);
-    console.log();
     yield put(putItems(data));
   } catch (e) {
-    console.log(e);
     yield put(showErrorCatalog(e.message));
   }
 }
@@ -72,10 +68,8 @@ function* handleSearchSkillsSagaItems(action) {
 
 //watcher
 function* searhSkillsSagaSalesHitsItems() {
-  console.log(1);
   while (true) {
     const action = yield take(getSalesHitsItems);
-    console.log(action);
     yield call(handleSearchSkillsSagaSalesHitsItems, action);
   }
 }
@@ -83,10 +77,8 @@ function* searhSkillsSagaSalesHitsItems() {
 //worker
 
 function* handleSearchSkillsSagaSalesHitsItems(action) {
-  console.log(3, action.payload);
   try {
   const data = yield call(skillsRequest, action.payload);
-  console.log(4, data);
   yield put(putSalesHitsItems(data));
 } catch (e) {
   yield put(showErrorSalesHits(e.message));
@@ -98,10 +90,8 @@ function* handleSearchSkillsSagaSalesHitsItems(action) {
 
 //watcher
 function* searhSkillsSagaOffsetItems() {
-  console.log(1);
   while (true) {
     const action = yield take(getItemsOffset);
-    console.log(action);
     yield call(handleSearchSkillsSagaOffsetItems, action);
   }
 }
@@ -109,20 +99,20 @@ function* searhSkillsSagaOffsetItems() {
 //worker
 
 function* handleSearchSkillsSagaOffsetItems(action) {
-  console.log(3, action.payload);
+  try {
   const data = yield call(skillsRequest, action.payload.url);
-  console.log(4, data);
-  yield put(putItemsOffset(data));
+  yield put(putItemsOffset(data));}
+  catch(e) {
+    yield put(showErrorOffset(e.message))
+  }
 }
 
 // запрос Product
 
 //watcher
 function* searhSkillsSagaProduct() {
-  console.log(1);
   while (true) {
     const action = yield take(getProduct);
-    console.log(action);
     yield call(handleSearchSkillsSagaProduct, action);
   }
 }
@@ -130,10 +120,8 @@ function* searhSkillsSagaProduct() {
 //worker
 
 function* handleSearchSkillsSagaProduct(action) {
-  console.log(3, action.payload);
   try {
   const data = yield call(skillsRequest, action.payload);
-  console.log(4, data);
   yield put(putProduct(data));
   } catch (e) {
     yield put(showErrorProduct(e.message));
@@ -144,10 +132,8 @@ function* handleSearchSkillsSagaProduct(action) {
 
 //watcher
 function* submittingFormSaga() {
-  console.log(1);
   while (true) {
     const action = yield take(submittingForm);
-    console.log(10);
     yield call(handleSubmittingFormSaga, action);
   }
 }
@@ -155,17 +141,14 @@ function* submittingFormSaga() {
 //worker
 
 function* handleSubmittingFormSaga(action) {
-  console.log(3, action.payload);
   try {
     const data = yield call(
       makingOrder,
       action.payload.url,
       action.payload.data
     );
-    console.log(4, data);
     yield put(submitForm(data));
   } catch (e) {
-    console.log("error", e.message);
     yield put(showErrorSubmitting(e.message));
   }
 }

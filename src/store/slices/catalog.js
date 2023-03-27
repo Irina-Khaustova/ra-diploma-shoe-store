@@ -10,6 +10,7 @@ const initialState = {
   product: "",
   searchCatalog: "",
   errorCatalog: "",
+  errorOffset: "",
   isLoadingProduct: false,
   isLoadingOffset: true,
 };
@@ -19,7 +20,10 @@ export const catalogSlice = createSlice({
   initialState,
   reducers: {
     getItems: (state, action) => {
+      state.items = null;
       state.selectedCategory = action.payload.selectedCategory;
+      state.hideButton = true;
+      state.errorOffset = "";
     },
     putItems: (state, action) => {
       if (!action.payload || action.payload.length < 6) {
@@ -28,6 +32,7 @@ export const catalogSlice = createSlice({
       state.items = action.payload;
       state.isLoading = true;
       state.hideButton = false;
+      state.errorCatalog = null;
     },
     putCategory: (state, action) => {
       const data = action.payload;
@@ -55,7 +60,6 @@ export const catalogSlice = createSlice({
       const data = action.payload;
       if (!data || data.length < 6) {
         state.hideButton = true;
-        console.log(33, data, data.length, !data);
       } else {
         state.hideButton = false;
       }
@@ -82,9 +86,13 @@ export const catalogSlice = createSlice({
         }
       });
     },
-    showErrorCatalig: (state, action) => {
+    showErrorCatalog: (state, action) => {
       state.errorCatalog = action.payload;
       state.isLoading = true;
+    },
+    showErrorOffset: (state, action) => {
+      state.errorOffset= action.payload;
+      state.isLoadingOffset = true;
     },
     showErrorProduct: (state, action) => {
       state.errorProduct = action.payload;
@@ -107,6 +115,7 @@ export const {
   showErrorProduct,
   changeIsLoadingOffset,
   getItemsOffset,
+  showErrorOffset,
 } = catalogSlice.actions;
 export const catalog = (state) => state.catalogSlice;
 export default catalogSlice.reducer;

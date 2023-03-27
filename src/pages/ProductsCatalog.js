@@ -2,7 +2,7 @@ import Header from "../components/Header";
 import Catalog from "../components/Catalog";
 import Footer from "../components/Footer";
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { putInputValue } from "../store/slices/catalog";
 import { getItems } from "../store/slices/catalog";
 
@@ -13,6 +13,10 @@ export default function ProductsCatalog() {
   );
 
   const [value, setValue] = useState(`${searchCatalog}`);
+
+useEffect(()=> {
+  setValue(searchCatalog);
+},[searchCatalog]);
 
   const handleInput = (evt) => {
     let url = !selectedCategory

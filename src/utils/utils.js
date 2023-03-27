@@ -3,8 +3,8 @@ export default async function skillsRequest(urlParams) {
   console.log(`http://localhost:7777/api/${urlParams}`);
   const response = await fetch(`http://localhost:7777/api/${urlParams}`);
   if (!response.ok) {
-    console.log(75)
-    throw new Error(response.statusText);
+    console.log(response)
+    throw new Error("Ошибка загрузки");
   }
 
   return await response.json();

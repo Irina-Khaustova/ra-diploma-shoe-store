@@ -17,6 +17,7 @@ export default function Menu() {
   };
 
   const handleClickButtonSearch = () => {
+    setValue("");
     if (buttonSearchActive === "invisible") {
       setButtonSearchActive("");
     }
@@ -25,7 +26,7 @@ export default function Menu() {
       if (value) {
         dispatch(putInputValue(value));
         navigate("/catalog.html");
-      } else {
+      //} else {
         setButtonSearchActive("invisible");
       }
     }

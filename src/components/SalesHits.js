@@ -13,7 +13,7 @@ export default function SalesHits() {
   }, []);
 
   return (
-    <section className="top-sales">
+    <section className="catalog">
       <h2 className="text-center">Хиты продаж!</h2>
       {!isLoading ? (
         <div className="preloader">

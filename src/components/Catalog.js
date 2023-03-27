@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import catalog from "../store/slices/catalog";
 import { getCategory } from "../store/actions/actionToolkit";
 import { getItems } from "../store/slices/catalog";
 import Product from "./Product";
 import {
   activeHideButton,
   highlightActiveCategory,
-  changeIsLoadingOffset,
   getItemsOffset,
 } from "../store/slices/catalog";
 
@@ -22,6 +20,7 @@ export default function Catalog(props) {
     items,
     errorCatalog,
     isLoadingOffset,
+    errorOffset,
   } = useSelector((state) => state.catalog);
 
   const [offset, setOffset] = useState(6);
@@ -31,6 +30,7 @@ export default function Catalog(props) {
     let url = !searchCatalog ? "items" : `items?&q=${searchCatalog}`;
     dispatch(getCategory("categories"));
     dispatch(getItems({ url: url }));
+    // eslint-disable-next-line
   }, []);
 
   const handleClick = (evt) => {
@@ -38,7 +38,7 @@ export default function Catalog(props) {
     setOffset(6);
     const selectedCategory = evt.target.id;
     let urlSearchCatalog = !searchCatalog ? "" : searchCatalog;
-    dispatch(activeHideButton());
+    //dispatch(activeHideButton());
     dispatch(highlightActiveCategory(selectedCategory));
     dispatch(
       getItems({
@@ -46,6 +46,7 @@ export default function Catalog(props) {
         selectedCategory: selectedCategory,
       })
     );
+    //dispatch(activeHideButton());
   };
 
   const handleClickAll = (evt) => {
@@ -105,7 +106,7 @@ export default function Catalog(props) {
           </div>
         ) : null}
         {errorCatalog ? <div className="error">{errorCatalog}</div> : null}
-        {items.map((el) => (
+        {items?.map((el) => (
           <Product
             className="catalog-item"
             key={el.id}
@@ -116,7 +117,7 @@ export default function Catalog(props) {
           ></Product>
         ))}
       </div>
-      {hideButton === false ? (
+      {isLoading === true && hideButton === false ? (
         <button className="catalog-button" onClick={handleClickButton}>
           Загрузить ещё
         </button>
@@ -129,6 +130,7 @@ export default function Catalog(props) {
           <span></span>
         </div>
       ) : null}
+      {errorOffset? <div className="error">{errorOffset}</div>: null}
     </section>
   );
 }
